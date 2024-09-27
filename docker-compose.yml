@@ -1,0 +1,77 @@
+services:
+
+  csp:
+    build: ./csp
+    container_name: csp_service
+    environment:
+      - SYMMETRIC_KEY=${SYMMETRIC_KEY}
+    volumes:
+      - ./csp/certs:/etc/ssl/certs  # Mounting certs for HTTPS
+    ports:
+      - "4443:443"  # HTTPS port mapping
+    networks:
+      - app-network
+
+  ra:
+    build: ./ra
+    container_name: ra_service
+    depends_on:
+      - postgres  # RA service depends on Postgres DB
+    volumes:
+      - ./ra/certs:/etc/ssl/certs
+      - ./csp/certs/csp.crt:/etc/ssl/certs/csp.crt
+    ports:
+      - "5443:443"  # HTTPS port mapping
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    networks:
+      - app-network
+
+  rp:
+    build: ./rp
+    container_name: rp_service
+    volumes:
+      - ./rp/certs:/etc/ssl/certs
+      - ./verifier/certs/verifier.crt:/etc/ssl/certs/verifier.crt
+    ports:
+      - "6443:443"  # HTTPS port mapping
+    networks:
+      - app-network
+
+  verifier:
+    build: ./verifier
+    container_name: verifier_service
+    volumes:
+      - ./verifier/certs:/etc/ssl/certs
+      - ./csp/certs/csp.crt:/etc/ssl/certs/csp.crt
+    ports:
+      - "8443:443"  # HTTPS port mapping
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent volume for DB data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+
+
