@@ -19,7 +19,6 @@ services:
       - postgres  # RA service depends on Postgres DB
     volumes:
       - ./ra/certs:/etc/ssl/certs
-      - ./csp/certs/csp.crt:/etc/ssl/certs/csp.crt
     ports:
       - "5443:443"  # HTTPS port mapping
     environment:
@@ -35,7 +34,6 @@ services:
     container_name: rp_service
     volumes:
       - ./rp/certs:/etc/ssl/certs
-      - ./verifier/certs/verifier.crt:/etc/ssl/certs/verifier.crt
     ports:
       - "6443:443"  # HTTPS port mapping
     networks:
@@ -46,7 +44,6 @@ services:
     container_name: verifier_service
     volumes:
       - ./verifier/certs:/etc/ssl/certs
-      - ./csp/certs/csp.crt:/etc/ssl/certs/csp.crt
     ports:
       - "8443:443"  # HTTPS port mapping
     networks:

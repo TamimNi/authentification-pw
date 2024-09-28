@@ -20,8 +20,8 @@ def create_routes(app: Flask):
         data = request.json
         email = data.get('email')
         password = data.get('password')
-
-        if login_user(email, password):
-            return jsonify({"message": "Login successful"}), 200
+        token = login_user(email, password)
+        if token:
+            return jsonify({"message": "Login successful", "token": token}), 200
         else:
             return jsonify({"message": "Invalid credentials"}), 403

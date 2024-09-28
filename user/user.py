@@ -3,9 +3,6 @@ import requests
 # Define the URLs for the services
 RA_URL = "https://localhost:5443/login"  # RA login endpoint
 
-# Disable SSL warnings (for local testing with self-signed certs)
-requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
-
 # Simulate user login request
 def login(username, password):
     # Login data to send to RA
