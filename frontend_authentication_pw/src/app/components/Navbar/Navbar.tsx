@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
 
         {!isLoggedIn ? (
           <li>
-            <Link href="/login">
+            <Link href="/pages/login">
               <span
                 className={`text-white cursor-pointer ${
                   pathname === '/login'
