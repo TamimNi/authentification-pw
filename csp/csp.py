@@ -41,7 +41,7 @@ def issue_token():
     # Define payload with email and expiration
     payload = {
         'email': email,
-        'exp': datetime.utcnow() + timedelta(minutes=1)  # Token expires in 30 minutes
+        'exp': datetime.utcnow() + timedelta(minutes=1)  # Token expires in
     }
 
     # Generate JWT token
