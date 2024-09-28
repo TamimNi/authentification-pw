@@ -5,14 +5,11 @@ FROM python:3.9-slim
 WORKDIR /usr/src/app
 
 # Copy the requirements file and install dependencies
-COPY requirements.txt ./
+COPY ./ ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install PostgreSQL client for connecting to the database
 RUN apt-get update && apt-get install -y postgresql-client
-
-# Copy the rest of the application code
-COPY ra.py ./
 
 # Expose the HTTPS port
 EXPOSE 443
