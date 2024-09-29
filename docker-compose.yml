@@ -1,4 +1,16 @@
 services:
+  frontend:
+    build: ./frontend_authentication_pw
+    container_name: frontend_service
+    ports:
+      - "3000:3000"  # Mapping HTTPS port (internal 3000) to host's port 3000
+    networks:
+      - app-network
+    volumes:
+      - ./frontend_authentication_pw:/app  # Mount your project directory to the container
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development  # You can specify the environment if necessary
 
   csp:
     build: ./csp
