@@ -9,23 +9,21 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Dummy authentication check
+  // Check if the token is in localStorage on component mount
   useEffect(() => {
-    // Replace this with real authentication logic
     const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
+    setIsLoggedIn(!!token); // Set login state based on token presence
   }, []);
 
   const handleLogout = () => {
-    // Replace this with real logout logic
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    router.push('/');
+    localStorage.removeItem('token'); // Clear token on logout
+    setIsLoggedIn(false); // Update state
+    router.push('/'); // Redirect to home page
   };
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Uploads', path: '/pages/uploads' },
+    { name: 'Secret', path: '/pages/secret' },
   ];
 
   return (
